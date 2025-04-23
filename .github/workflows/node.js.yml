@@ -28,3 +28,9 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist # The folder the action should deploy
+        branch: gh-pages # The branch the action should deploy to
