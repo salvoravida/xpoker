@@ -1,0 +1,35 @@
+/* Inherits .modal-backdrop, .modal-content, .modal-header from MenuOpzioni.css if imported globally */
+/* Or duplicate/modify styles if needed */
+
+.help-modal {
+  /* Specific styles if different from options modal */
+  min-width: 300px; /* Potentially wider for help text */
+}
+
+.help-header {
+  /* Specific header styles if needed */
+}
+
+.help-body {
+  padding: 15px; /* More padding for text */
+  background-color: lightgray;
+  color: black;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.help-body p {
+  margin: 3px 0; /* Adjust spacing between lines */
+  white-space: pre; /* Preserve whitespace like original */
+}
+
+/* Optional OK button style */
+/*
+.help-ok-button {
+  margin-top: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+*/

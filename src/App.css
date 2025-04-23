@@ -1,0 +1,373 @@
+/* Global Styles */
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Courier New', Courier, monospace; /* Classic monospace font */
+  margin: 0;
+  padding: 20px; /* Add some padding around */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  min-height: 100vh; /* Ensure body takes full viewport height */
+  box-sizing: border-box;
+}
+
+.app-container {
+    width: 768px;
+  min-height: 520px; /* Increase min-height slightly */
+  /* margin: 10px auto; Removed, body handles centering */
+  padding: 15px; /* Adjust padding */
+  border: 2px solid #555; /* Simple border */
+  display: grid;
+  grid-template-areas:
+    "header header header"
+    "payout info info"
+    "payout info info"
+    "table table table"
+    "controls controls controls"
+    "message message message"
+    "footer footer footer";
+  grid-template-rows: auto auto 1fr auto auto auto auto; /* Adjust rows as needed */
+  grid-template-columns: 1fr 1fr 1fr; /* Adjust columns */
+  gap: 10px;
+  position: relative; /* For potential absolute positioning later */
+}
+
+/* Header */
+.header-placeholder { /* Will add this div in App.tsx */
+    grid-area: header;
+    text-align: center;
+    font-size: 1.1em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #555;
+}
+
+/* Payout Table Area */
+.payout-table-placeholder {
+  grid-area: payout;
+  border: 1px solid #444; /* Less prominent border */
+  padding: 10px;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+.payout-table-placeholder h2 { display: none; } /* Hide placeholder H2 */
+.payout-item { /* Class for each payout line */
+    display: flex;
+    justify-content: space-between;
+    /* Add some padding for better spacing */
+    padding-right: 5px;
+}
+.payout-item span:first-child { /* Name */
+    text-align: left;
+    /* flex-basis: 70%; Removed */
+    /* Allow content to determine width, add padding */
+    padding-right: 15px; /* Space between name and value */
+    white-space: nowrap; /* Prevent wrapping */
+}
+.payout-item span:last-child { /* Value */
+    text-align: right;
+    /* flex-basis: 30%; Removed */
+    min-width: 40px; /* Ensure minimum width for alignment */
+}
+
+
+/* Game Info Area */
+.game-info-placeholder {
+  grid-area: info;
+  border: 1px solid #444;
+  padding: 10px;
+  font-size: 1.1em;
+  /* text-align: right; Removed */
+  display: flex; /* Use flexbox for columns */
+  justify-content: space-between; /* Space out columns */
+  align-items: flex-start; /* Align items to the top */
+}
+.game-info-placeholder h2 { display: none; } /* Hide placeholder H2 */
+
+.game-info-col {
+    display: flex;
+    flex-direction: column;
+}
+.game-info-col:first-child { /* Left column (Bet) */
+    text-align: left;
+}
+.game-info-col:last-child { /* Right column (Credit/Points) */
+    text-align: right;
+}
+
+.game-info-placeholder p {
+    margin: 2px 0;
+}
+.info-label { /* Class for labels like "Credito:" */
+    color: lightgreen; /* Original color */
+    display: inline-block;
+    margin-right: 10px;
+}
+.credit-label { /* Class for Credit label */
+    color: yellow; /* New color */
+    display: inline-block;
+    margin-right: 10px;
+}
+.info-value { /* Class for the actual numbers */
+    color: white;
+    display: inline-block; /* Keep label and value on same line if needed */
+}
+.puntata-label { /* Specific color for Puntata */
+    color: red;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+
+/* Hand Display Area (The Table) */
+.hand-display { /* This is now the brown border */
+  grid-area: table;
+  background-color: brown; /* Brown background for the border area */
+  /* border: 10px solid brown; Removed, background acts as border */
+  border-radius: 25px; /* Rounded corners for the border */
+  /* padding: 20px; Removed, padding will be inside playing surface */
+  position: relative; /* For the white triangles and inner surface */
+  margin-top: 15px;
+  overflow: hidden; /* Keep overflow hidden for the inner surface */
+  display: flex; /* To easily center the playing surface */
+  padding: 15px; /* Increased padding for thicker border */
+    height: 200px;
+}
+.hand-display h2 { display: none; } /* Hide placeholder H2 */
+
+/* White triangle details using pseudo-elements */
+.hand-display::before,
+.hand-display::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent; /* Triangle width */
+    border-right: 15px solid transparent; /* Triangle width */
+}
+
+.hand-display::before { /* Top triangle */
+    top: 0; /* Position at the top edge of the brown border */
+    border-bottom: 15px solid white; /* Triangle height and color */
+    z-index: 1; /* Ensure visibility */
+}
+
+.hand-display::after { /* Bottom triangle */
+    bottom: 0; /* Position at the bottom edge of the brown border */
+    border-top: 15px solid white; /* Triangle height and color */
+    z-index: 1; /* Ensure visibility */
+}
+
+/* White corner pocket details - RE-ADDED */
+.corner-pocket {
+    position: absolute;
+    width: 20px; /* Adjusted size */
+    height: 20px;
+    background-color: white;
+    z-index: 1; /* Above brown border, below triangles if they overlap */
+}
+.corner-pocket.top-left {
+    top: 0;
+    left: 0;
+    border-bottom-right-radius: 20px; /* Round the inner corner */
+}
+.corner-pocket.top-right {
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 20px; /* Round the inner corner */
+}
+.corner-pocket.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-top-right-radius: 20px; /* Round the inner corner */
+}
+.corner-pocket.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 20px; /* Round the inner corner */
+}
+
+/* Inner green playing surface */
+.playing-surface {
+    background-color: green;
+    width: 100%;
+    height: 100%;
+    /* No border-radius needed, it's rectangular */
+    padding: 15px; /* Padding inside the green area */
+    box-sizing: border-box; /* Include padding in width/height */
+    display: flex; /* To center cards container */
+    align-items: center; /* Center cards container vertically */
+    justify-content: center; /* Center cards container horizontally */
+    min-height: 160px; /* Ensure minimum height */
+}
+
+/* Style for the initial title text */
+.initial-title {
+    font-size: 4em; /* Large text */
+    font-weight: bold;
+    color: green; /* Same color as background to blend */
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5); /* Optional shadow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Fill the playing surface */
+    text-align: center;
+    /* Make text slightly darker/lighter than background if needed */
+    /* filter: brightness(0.8); */
+}
+
+/* Container for the two cards during Double Up */
+.doubling-cards-container {
+    display: flex;
+    justify-content: space-around; /* Space out the two cards */
+    align-items: center;
+    width: 60%; /* Adjust width as needed */
+    margin: auto; /* Center horizontally */
+}
+
+
+.cards-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; /* Center cards vertically */
+  flex-wrap: wrap;
+  min-height: 120px; /* Ensure space for larger cards */
+  padding: 10px 0; /* Removed bottom padding */
+}
+
+/* Card Styling - Circular like original */
+.card-placeholder {
+  width: 80px; /* Circle diameter */
+  height: 80px;
+  border-radius: 50%; /* Make it a circle */
+  margin: 5px;
+  position: relative; /* For pseudo-elements */
+  display: flex;
+  /* flex-direction: column; Reverted */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  font-size: 1.8em; /* Larger rank text */
+  font-weight: bold;
+  color: black; /* Rank text color */
+  border: 2px solid white; /* White outer border */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Subtle glow */
+  user-select: none;
+  cursor: default; /* Default cursor */
+  /* overflow: hidden; Removed */
+  /* padding-bottom: 25px; Removed */
+}
+
+/* Suit Colors (Mapping based on C++ comments/screenshot) */
+.card-placeholder.suit-H { background-color: magenta; } /* Hearts -> Magenta */
+.card-placeholder.suit-D { background-color: red; }     /* Diamonds -> Red */
+.card-placeholder.suit-C { background-color: blue; }    /* Clubs -> Blue */
+.card-placeholder.suit-S { background-color: #444; }   /* Spades -> Dark Gray/Black */
+.card-placeholder.suit-JOKER {
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); /* Restored Rainbow for Joker */
+    color: black; /* Keep text color black for readability */
+    /* border-color: yellow; Removed default yellow border */
+}
+
+/* Inner white circle/slice effect */
+.card-placeholder::before {
+    content: '';
+    position: absolute;
+    top: 5px;    /* Adjust position */
+    left: 5px;   /* Adjust position */
+    right: 5px;  /* Adjust size */
+    bottom: 5px; /* Adjust size */
+    background-color: transparent; /* Make it transparent */
+    border-radius: 50%;
+    border: 18px solid transparent; /* Create space for the slice */
+    /* The slice is created by border-top-color */
+    border-top-color: white;
+    transform: rotate(-45deg); /* Position the slice */
+    z-index: 1; /* Below the rank */
+}
+/* Inner white circle for number background */
+.card-placeholder::after {
+    content: '';
+    position: absolute;
+    width: 50%; /* Size of inner circle */
+    height: 50%;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid black; /* Thin border for inner circle */
+    z-index: 2; /* Below the rank, above the slice */
+}
+
+/* Rank text needs to be above pseudo-elements */
+.card-rank {
+    position: relative;
+    z-index: 3;
+}
+
+
+.card-placeholder.held {
+  border-color: yellow; /* Use YELLOW border for held indication */
+  border-width: 4px; /* Thicker border when held */
+  box-shadow: 0 0 10px yellow; /* Yellow glow effect */
+}
+
+/* Hold Indicator Text (STOP sign below card - Absolute Position) */
+.hold-indicator {
+    position: absolute;   /* Position relative to .card-placeholder */
+    bottom: -22px;        /* Position below the card circle */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9em;
+    color: yellow;
+    font-weight: bold;
+    background-color: black; /* Ensure visibility */
+    padding: 1px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+    z-index: 5; /* Ensure it's visible */
+}
+
+/* Controls Area */
+.controls-placeholder {
+  grid-area: controls;
+  text-align: center;
+  padding-top: 10px;
+}
+.controls-placeholder button {
+  padding: 5px 10px;
+  margin: 0 10px;
+  cursor: pointer;
+  background-color: #555;
+  color: white;
+  border: 1px solid #aaa;
+  font-family: inherit; /* Use monospace font */
+}
+.controls-placeholder button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Message Area */
+.message-placeholder {
+  grid-area: message;
+  text-align: center;
+  min-height: 2em; /* Ensure space for messages */
+  padding-top: 5px;
+}
+.message-placeholder p {
+    font-weight: bold;
+    color: yellow; /* Make messages stand out */
+    margin: 2px 0;
+}
+
+/* Footer Area */
+.footer-placeholder { /* Will add this div in App.tsx */
+    grid-area: footer;
+    text-align: center;
+    font-size: 0.9em;
+    padding-top: 10px;
+    border-top: 1px solid #555;
+    color: lightgray;
+}
+
+/* Raddoppio styles removed */

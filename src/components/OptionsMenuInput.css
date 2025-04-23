@@ -1,0 +1,65 @@
+/* Optional overlay to slightly dim the background if needed */
+.options-input-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3); /* Less dim than modal backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100; /* Above modal backdrop */
+}
+
+.options-input-window {
+  background-color: lightgray;
+  border: 2px solid white;
+  box-shadow: 4px 4px 0px 0px black;
+  min-width: 200px; /* Adjust as needed */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.options-input-header {
+  background-color: blue;
+  color: yellow;
+  padding: 5px 10px; /* Slightly smaller padding */
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid white;
+}
+
+.options-input-body {
+  padding: 15px; /* More padding around input */
+  background-color: lightgray; /* Ensure body matches window */
+  position: relative; /* For potential cursor */
+}
+
+.options-input-field {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-top-color: gray; /* Inset effect */
+  border-left-color: gray; /* Inset effect */
+  padding: 5px;
+  font-family: inherit;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box; /* Include padding/border in width */
+  outline: none;
+}
+
+/* Optional cursor styling if needed */
+/*
+.options-input-cursor {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  color: black;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+*/
