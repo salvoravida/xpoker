@@ -6,13 +6,12 @@ on:
   pull_request:
     branches: [ "master" ]
 
-#----- Permessi minimi richiesti da GitHub Pages
+# permessi minimi raccomandati dalla doc Pages
 permissions:
-  contents: read          # legge il repo
-  pages: write            # pubblica su Pages
-  id-token: write         # firma la pubblicazione
+  contents: read
+  pages: write
+  id-token: write
 
-#----- Evita deploy sovrapposti
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -20,32 +19,28 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        # Aggiungi altre versioni se vuoi testare LTS
         node-version: [22.x]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: npm
 
-      - run: npm ci               # installazione riproducibile
-      - run: npm run build        # deve produrre ./dist
+      - run: npm ci
+      - run: npm run build         # produce ./dist
 
-      # Carichiamo la cartella dist come artefatto per Pages
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload dist as Pages artifact
+        uses: actions/upload-pages-artifact@v3   # <-- v3 = artifact v4
         with:
-          path: ./dist            # <- cartella da pubblicare
+          path: ./dist
 
   deploy:
-    needs: build                 # parte solo se build va a buon fine
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -54,4 +49,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4            # <-- v4
